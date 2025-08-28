@@ -1,6 +1,7 @@
 ﻿namespace BookManagementConsoleApp
 {
-    enum Genre
+    //Enum representing the different genre of a book
+    public enum Genre
     {
         Thriller,
         Fantasy,
@@ -11,10 +12,10 @@
         Biography,
         History,
         Encyclopedia,
-
     }
 
-    class Author
+    //Class representing an author
+    public class Author
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -22,7 +23,7 @@
         public DateOnly BirthDate { get; set; }
         public string Nationality { get; set; }
         public string Biography { get; set; }
-        
+
         public Author(int id, string name, string lastName, DateOnly birthDate, string nationality, string biography)
         {
             Id = id;
@@ -34,7 +35,8 @@
         }
     }
 
-    class Book
+    // Class representing a book
+    public class Book
     {
 
 
@@ -63,6 +65,11 @@
 
         public string getAuthorCompleteName() => $"{Author.Name} {Author.LastName}";
 
+        public static bool isGenreValid(string genre)
+        {
+            return Enum.TryParse<Genre>(genre, ignoreCase: true, out _);
+        }
+
         public override string ToString()
         {
             return $"{Title}, {Author.Name} {Author.LastName}, {Genre}, {PublicationDate.ToString("dd MM yyyy")}, {ISBN}, {Publisher}, {NumberOfPages} pages";
@@ -70,12 +77,37 @@
 
     }
 
+    /*Class representing an ensemble of books */
     class Library
     {
         public List<Book> ListOfBook { get; set; } = new List<Book>();
         public List<Author> ListOfAuthor { get; set; } = new List<Author>();
 
+        public void printEveryBook()
+        {
+            Console.WriteLine("-- LIST OF EVERY BOOK --\n");
+            foreach (Book book in ListOfBook)
+            {
+                Console.WriteLine(book.ToString());
+            }
+            Console.WriteLine("");
+        }
+
+        public void printBookByGenre()
+        {
+            if (Enum.TryParse<Genre>(Console.ReadLine(), ignoreCase: true, out Genre result))
+            {
+                Console.WriteLine($"Genre = {result}\n");
+            }
+            else
+            {
+                Console.WriteLine("Genre does not exists\n");
+            }
+        }
+
     }
+
+    // Class representing the program to launch
     class Program
     {
 
@@ -86,6 +118,8 @@
             Console.WriteLine("2. Search books by genre");
             Console.WriteLine("3. Search book by author");
             Console.WriteLine("4. Search books by keyword");
+            Console.WriteLine("5. Exit program");
+            Console.Write("\n");
         }
 
         public static int validateMenuChoice()
@@ -93,24 +127,23 @@
             int choice = 0;
             while (true)
             {
-                if (int.TryParse(Console.ReadLine(), out choice) && choice >=1 && choice <= 4)
+                if (int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= 5)
                 {
-                    Console.WriteLine($"Choice = {choice}");
+                    Console.WriteLine($"Choice = {choice}\n");
                     return choice;
                 }
                 else
                 {
-                    Console.WriteLine("Choice is invalid, please enter a vlid choice");
+                    Console.WriteLine("Choice is invalid, please enter a vlid choice\n");
+                    printMenu();
                 }
             }
         }
         public static void Main(string[] args)
         {
-            printMenu();
-            validateMenuChoice();
-
+            
             //Generating multiple author
-            Author king = new Author(1, "Stephen", "King", new DateOnly(1947, 9, 21), "American", "Master of horror and suspense.");
+                Author king = new Author(1, "Stephen", "King", new DateOnly(1947, 9, 21), "American", "Master of horror and suspense.");
             Author rowling = new Author(2, "J.K.", "Rowling", new DateOnly(1965, 7, 31), "British", "Author of the Harry Potter series.");
             Author orwell = new Author(3, "George", "Orwell", new DateOnly(1903, 6, 25), "British", "Known for dystopian and political works.");
             Author tolkien = new Author(4, "J.R.R.", "Tolkien", new DateOnly(1892, 1, 3), "British", "Author of The Lord of the Rings.");
@@ -158,6 +191,20 @@
 
                 new Book("Emma", austen, Genre.Romance, new DateOnly(1815, 12, 23), 9781503280298, "John Murray", 474),
             };
+
+            while (true)
+            {
+                printMenu();
+                int choice = validateMenuChoice();
+                if (choice == 1)
+                    library.printEveryBook();
+                if (choice == 2)
+                    library.printBookByGenre();
+                if (choice == 5)
+                    break;
+            }
+            Console.WriteLine("Ending program.\n");
+            return;
         }
     }
 }

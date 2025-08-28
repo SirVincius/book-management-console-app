@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "book-management-console-app", "book-management-console-app\book-management-console-app.csproj", "{ADF7A64E-FA2B-4C2C-916D-0704BF6CD094}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "book-management-console-app-tests", "book-management-console-app-tests\book-management-console-app-tests.csproj", "{9AFA5F53-464C-4888-AC95-3A3F32534452}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{ADF7A64E-FA2B-4C2C-916D-0704BF6CD094}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADF7A64E-FA2B-4C2C-916D-0704BF6CD094}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADF7A64E-FA2B-4C2C-916D-0704BF6CD094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AFA5F53-464C-4888-AC95-3A3F32534452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AFA5F53-464C-4888-AC95-3A3F32534452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AFA5F53-464C-4888-AC95-3A3F32534452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AFA5F53-464C-4888-AC95-3A3F32534452}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
