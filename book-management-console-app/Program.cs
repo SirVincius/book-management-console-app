@@ -83,6 +83,12 @@
         public List<Book> ListOfBook { get; set; } = new List<Book>();
         public List<Author> ListOfAuthor { get; set; } = new List<Author>();
 
+        public Library(params Book[] books)
+        {
+            ListOfBook = new List<Book>(books);
+            ListOfBook.Sort ((x, y) => x.Title.CompareTo(y.Title));
+        }
+
         public void printEveryBook()
         {
             Console.WriteLine("-- LIST OF EVERY BOOK --\n");
@@ -93,17 +99,56 @@
             Console.WriteLine("");
         }
 
+        // Print every book for a given genre
         public void printBookByGenre()
         {
-            if (Enum.TryParse<Genre>(Console.ReadLine(), ignoreCase: true, out Genre result))
+            Console.Write("Enter a genre : ");
+            string input = Console.ReadLine();
+            Genre genre;
+            if (string.IsNullOrWhiteSpace(input))
             {
-                Console.WriteLine($"Genre = {result}\n");
+                Console.WriteLine("Genre is not valid.");
+                return;
+            }
+            if (Enum.TryParse<Genre>(input, ignoreCase: true, out genre))
+            {
+
+                Console.Write("\n");
+                foreach (Book book in ListOfBook)
+                {
+                    if (book.Genre.Equals(genre))
+                        Console.WriteLine(book.ToString());
+                }
+                Console.Write("\n");
+                return;
+
             }
             else
             {
-                Console.WriteLine("Genre does not exists\n");
+                Console.WriteLine("Genre is not valid.");
             }
         }
+        
+        public void printBookByAuthor()
+        {
+            Console.Write("Enter an author's last name : ");
+            string input = Console.ReadLine().ToLower();
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                Console.WriteLine("Author's last name is not valid.");
+                return;
+            }
+            
+                Console.Write("\n");
+                foreach (Book book in ListOfBook)
+            {
+                if (book.Author.LastName.ToLower().Equals(input))
+                    Console.WriteLine(book.ToString());
+            }
+                Console.Write("\n");
+                return;
+
+            }
 
     }
 
@@ -129,7 +174,6 @@
             {
                 if (int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= 5)
                 {
-                    Console.WriteLine($"Choice = {choice}\n");
                     return choice;
                 }
                 else
@@ -141,9 +185,9 @@
         }
         public static void Main(string[] args)
         {
-            
+
             //Generating multiple author
-                Author king = new Author(1, "Stephen", "King", new DateOnly(1947, 9, 21), "American", "Master of horror and suspense.");
+            Author king = new Author(1, "Stephen", "King", new DateOnly(1947, 9, 21), "American", "Master of horror and suspense.");
             Author rowling = new Author(2, "J.K.", "Rowling", new DateOnly(1965, 7, 31), "British", "Author of the Harry Potter series.");
             Author orwell = new Author(3, "George", "Orwell", new DateOnly(1903, 6, 25), "British", "Known for dystopian and political works.");
             Author tolkien = new Author(4, "J.R.R.", "Tolkien", new DateOnly(1892, 1, 3), "British", "Author of The Lord of the Rings.");
@@ -156,6 +200,7 @@
 
             //Library initialization
             Library library = new Library();
+            
 
             //Generating list of books for a library
             library.ListOfBook = new List<Book>
@@ -200,6 +245,8 @@
                     library.printEveryBook();
                 if (choice == 2)
                     library.printBookByGenre();
+                if (choice == 3)
+                    library.printBookByAuthor();
                 if (choice == 5)
                     break;
             }
